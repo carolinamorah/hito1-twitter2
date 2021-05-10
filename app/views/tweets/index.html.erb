@@ -1,0 +1,74 @@
+
+<% if user_signed_in? %>
+  <%= render 'form', tweet: @tweet %>
+<% end %>
+
+<div class="container">
+  <h1 class="twitter-feed text-center">Feed<i class="fab fa-twitter"></i></h1>
+
+  <% @tweets.each do |tweet| %>
+    <div class="card mx-auto col-md-6 mb-3" style="max-width: 650px;">
+      <div class="row no-gutters">
+        <div class="col-md-2 py-4"> 
+          <img src="<%= tweet.user&.user_photo %>"width="80" height="80" class="rounded-circle mb-2 mx-4" >  
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-user pr-8"><%= tweet.user.user_name %> .
+            <small class="text-muted display-12"><%= link_to time_ago_in_words(tweet.created_at),tweet %></small>
+            </h5>
+            <p class="card-text"><%= tweet.content %></p>  
+        </div>
+        </div>
+        <% if user_signed_in? %>
+          <div class="col-md-2">
+              <small class="text-muted"><%= link_to 'Show', tweet %></small>
+              <small class="text-muted"><%= link_to 'Edit', edit_tweet_path(tweet) %></small>
+              <small class="text-muted"><%= link_to 'Delete', tweet, method: :delete, data: { confirm: 'Are you sure?' }  %></small>
+          </div>
+        <%end%>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <% if !tweet.rt_ref.nil? %>
+              <small class="text-muted"><%= link_to "#{tweet.user.user_name} lo retwitteó", tweet.retweet_ref %></small>
+          <% end %>
+        </div>
+        <div class="col-md-4">
+          <%= link_to retweet_tweet_path(tweet), data: { confirm: 'do you want to retweet'}, method: :post do %>
+            <span class="icon success"><i class="fas fa-retweet fa-2x"></i></span>
+            <% end %>
+            <%= tweet.rt_ref %> 
+            <%= tweet.retweet %> -
+        </div>
+
+        <% if user_signed_in? %>
+          <div class="col-md-2">
+            <% if like(tweet, current_user) %>
+              <%= link_to tweet_like_path(tweet,like(tweet, current_user)), method: :delete do %>
+                <span class="icon"><i class="fas fa-heart fa-2x"></i></span>
+               <%end%>
+                <%= tweet.likes.count %>
+             
+          </div>
+
+            <% else  %>
+          <div class="col-md-2">
+              <%= link_to tweet_likes_path(tweet), method: :post do %>
+                <span class="icon"><i class="far fa-heart fa-2x"></i></span>
+              <%end%>
+          </div>
+    
+            <%end%>
+        <%end%>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="text-center"><%= link_to_next_page @tweets, '>>Show More Tweets' %> 
+  <%= link_to_prev_page @tweets, '<<Show Previous Tweets' %>
+  </div>
+
+</div>
