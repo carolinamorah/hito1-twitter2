@@ -28,36 +28,37 @@
           </div>
         <%end%>
       </div>
+
       <div class="row">
         <div class="col-md-4">
           <% if !tweet.rt_ref.nil? %>
               <small class="text-muted"><%= link_to "#{tweet.user.user_name} lo retwitteó", tweet.retweet_ref %></small>
           <% end %>
         </div>
+
         <div class="col-md-4">
           <%= link_to retweet_tweet_path(tweet), data: { confirm: 'do you want to retweet'}, method: :post do %>
-            <span class="icon success"><i class="fas fa-retweet fa-2x"></i></span>
-            <% end %>
-            <%= tweet.rt_ref %> 
-            <%= tweet.retweet %> -
+              <span class="icon success"><i class="fas fa-retweet fa-2x"></i></span>
+          <% end %>
+            <%= tweet.retweet %>     
         </div>
 
+
+        <%= tweet.likes.count %>
         <% if user_signed_in? %>
-          <div class="col-md-2">
+              <div class="col-md-2">
             <% if like(tweet, current_user) %>
-              <%= link_to tweet_like_path(tweet,like(tweet, current_user)), method: :delete do %>
-                <span class="icon"><i class="fas fa-heart fa-2x"></i></span>
-               <%end%>
-                <%= tweet.likes.count %>
-             
-          </div>
+                  <%= link_to tweet_like_path(tweet,like(tweet, current_user)), method: :delete do %>
+                    <span class="icon"><i class="fas fa-heart fa-2x"></i></span>
+                  <%end%>  
+              </div>
 
             <% else  %>
-          <div class="col-md-2">
-              <%= link_to tweet_likes_path(tweet), method: :post do %>
-                <span class="icon"><i class="far fa-heart fa-2x"></i></span>
-              <%end%>
-          </div>
+              <div class="col-md-2">
+                  <%= link_to tweet_likes_path(tweet), method: :post do %>
+                    <span class="icon"><i class="far fa-heart fa-2x"></i></span>
+                  <%end%>
+              </div>  
     
             <%end%>
         <%end%>
@@ -72,3 +73,4 @@
   </div>
 
 </div>
+

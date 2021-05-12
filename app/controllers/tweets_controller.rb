@@ -13,13 +13,7 @@ class TweetsController < ApplicationController
     retweeted.user = current_user
     retweeted.rt_ref = @tweet.id
     if retweeted.save
-      if @tweet.retweet.nil?
-        @tweet.update(retweet: @tweet.retweet = 1)  
-      else
-        
         @tweet.update(retweet: @tweet.retweet += 1)
-      end
-      
       redirect_to root_path, notice: 'retweet ingresado con exito'
     else
       redirect_to root_path, alert: 'no es posible hacer retweet'
