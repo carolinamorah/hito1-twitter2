@@ -1,22 +1,24 @@
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1DA1F2"><a class="navbar-brand">Twitter<i class="fab fa-twitter"></i></a>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1DA1F2">
+<a class="navbar-brand" href="http://localhost:3000/tweets">Twitter<i class="fab fa-twitter"></i></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <% if user_signed_in? %>
+            <% if user_signed_in? %>
+                <li class="nav-item active">
                     <%= button_to "Logout", destroy_user_session_path, method: :delete, :class => 'btn btn-outline-light mx-4'%>              
                 </li>
+
                 <li class="nav-item">
-                <%else%>
-                <%= button_to 'Ingresar', new_user_session_path, :class => 'btn btn-outline-light mx-4' %>
+            <%else%>
+                    <%= button_to 'Ingresar', new_user_session_path, :class => 'btn btn-outline-light mx-4' %>
                 </li>
                 <li class="nav-item">
-                <%= button_to 'Registrarse', new_user_registration_path, method: :get, :class => 'btn btn-outline-light mx-4' %>
+                    <%= button_to 'Registrarse', new_user_registration_path, method: :get, :class => 'btn btn-outline-light mx-4' %>
                 </li>
-                <%end%>
+            <%end%>
             </li>
         </ul>
             <% if user_signed_in?  %>
